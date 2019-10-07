@@ -1,0 +1,87 @@
+﻿@model ExamWeb.Controllers.JourneyFilterVM
+@{
+    ViewBag.Title = "Jornadas";
+}
+
+<div class="jumbotron">
+    <h2>@ViewBag.Title</h2>
+    <hr />
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Serviços</a></li>
+            <li class="breadcrumb-item active" aria-current="page">@ViewBag.Title</li>
+        </ol>
+    </nav>
+</div>
+
+@await Html.PartialAsync("_JourneyFilter", Model)
+
+<div class="jumbotron">
+    <div id="reportResult">
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            intialSetup();
+            setupValidation();
+        });
+
+        function setupValidation() {
+            var validator = $('#akrual-form').validate({
+                submitHandler: function (form) {
+                    $('#spinner-report').show();
+
+                    const $form = $(form);
+                    // serialize the data in the form
+                    const serializedData = $form.serialize();
+
+                    $.ajax({
+                        url: "/Journeys/GetJournadas/",
+                        type: "POST",
+                        data: serializedData,
+
+                    }).done(function (response) {
+                        newReportArrived(response);
+                    }).always(function (response) {
+                        alwaysCallback();
+                    });
+                }
+            });
+        }
+
+        function newReportArrived(response) {
+            $('#reportResult').html(response);
+            createTable();
+        }
+
+        function alwaysCallback() {
+            $('#spinner-report').hide();
+        }
+
+        function intialSetup() {
+            $('#To').datepicker({
+                language: 'pt-BR',
+                date: new Date(2019, 10, 30),
+                autoPick: true
+            });
+            
+            $('#From').datepicker({
+                language: 'pt-BR',
+                date: new Date(2018, 9, 30),
+                autoPick: true
+            });
+
+            $('#spinner-report').hide();
+        }
+
+        function createTable() {
+            $('.footable').DataTable({
+                "lengthMenu": [[10, 25, -1], [10, 25, "All"]],
+                "scrollX": true,
+                "order": [[2, 'asc']]
+            });
+        }
+    </script>
+}

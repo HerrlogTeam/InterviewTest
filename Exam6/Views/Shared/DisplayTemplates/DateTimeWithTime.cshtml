@@ -1,0 +1,8 @@
+﻿@model DateTime?
+@{
+    if (Model != null)
+    {
+        <p class="hidden">@Model.Value.ToString("yyyyMMddHHmm")</p>
+        <span class="date">@Model.Value.ToString("dd/MM/yy HH:mm")</span>
+    }
+}

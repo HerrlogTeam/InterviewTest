@@ -1,0 +1,86 @@
+﻿@model Exam6.Controllers.JourneyFilterVM
+@{
+    ViewBag.Title = "Jornadas";
+}
+
+<div class="jumbotron">
+    <h2>@ViewBag.Title</h2>
+    <hr/>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Serviços</a></li>
+            <li class="breadcrumb-item active" aria-current="page">@ViewBag.Title</li>
+        </ol>
+    </nav>
+</div>
+
+@await Html.PartialAsync("_JourneyFilter", Model)
+
+<div class="jumbotron">
+    <div id="reportResult">
+    </div>
+</div>
+
+@section Styles {
+    <environment names="Development">
+        <link rel="stylesheet" href="~/lib/datePicker/datepicker.css" />
+        <link rel="stylesheet" href="~/lib/datePicker/datepickerCustom.css" />
+        <link rel="stylesheet" href="~/lib/dataTables/datatables.css" />
+        <link rel="stylesheet" href="~/lib/dataTables/floatingscrollbar.css" />
+        <link rel="stylesheet" href="~/lib/chosen/chosen.css" />
+    </environment>
+    <environment names="Staging,Production">
+        <link rel="stylesheet" href="~/lib/datePicker/datepicker.min.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/lib/dataTables/datatables.min.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/lib/chosen/chosen.min.css" asp-append-version="true" />
+    </environment>
+}
+
+@section PageScriptLoader {
+    <script src="~/lib/datePicker/js/datepicker.js"></script>
+    <script src="~/lib/datePicker/js/datepicker.pt-BR.js"></script>
+    <script src="~/lib/datePicker/js/datepicker.custom.js"></script>
+    <script src="~/lib/dataTables/datatables.js"></script>
+    <script src="~/lib/dataTables/customfloatingscrollbar.js"></script>
+    <script src="~/js/formsubmithandler.js"></script>
+    <script src="~/js/dataTableCustom.js"></script>
+    <script src="~/lib/chosen/chosen.jquery.js"></script>
+}
+
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            intialSetup();
+            setupValidation();
+        });
+
+        function setupValidation() {
+            var validator = $('#akrual-form').validate({
+                submitHandler: function (form) {
+                    $('#spinner-report').show();
+                    sendRequestWithoutSwal(form, this, "/Jornadas/GetJournadas/", newReportArrived, alwaysCallback, $('#reportResult'));
+                }
+            });
+        }
+
+        function newReportArrived(response, callbackData) {
+            $('#reportResult').html(response);
+            createTable();
+        }
+
+        function alwaysCallback() {
+            $('#spinner-report').hide();
+        }
+
+        function intialSetup() {
+            $('.chosen-select').chosen({});
+            $('.input-group.date input').datepicker();
+            $('#spinner-report').hide();
+        }
+
+        function createTable() {
+            $('.footable').createDataTable([[2, 'asc']], 1, 10);
+        }
+    </script>
+}
+
