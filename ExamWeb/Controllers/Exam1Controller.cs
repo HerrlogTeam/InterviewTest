@@ -10,19 +10,21 @@ using Microsoft.Extensions.Logging;
 namespace ExamWeb.Controllers
 {
     [Route("Jornadas")]
-    public class JourneysController : Controller
+    public class Exam1Controller : Controller
     {
-        private readonly ILogger<JourneysController> _logger;
+        private readonly ILogger<Exam1Controller> _logger;
         private readonly MyDbContext _context;
 
-        public JourneysController(ILogger<JourneysController> logger, MyDbContext context)
+        public Exam1Controller(ILogger<Exam1Controller> logger, MyDbContext context)
         {
             _logger = logger;
             _context = context;
         }
 
         [HttpGet]
+        [Route("")]
         [Route("Index")]
+        [Route("Jornadas/Index")]
         public IActionResult Index()
         {
             return View();
@@ -43,7 +45,7 @@ namespace ExamWeb.Controllers
                 }).ToListAsync()
             };
 
-            return PartialView("_ListOfJourneys",model);
+            return PartialView("_ListOfJourneys", model);
         }
     }
 

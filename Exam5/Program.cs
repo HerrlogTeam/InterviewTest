@@ -15,7 +15,7 @@ namespace Exam5
     {
         private static async Task Main(string[] args)
         {
-            string connString = "Server=DESKTOP-VFNCA1J\\MSSQLSERVER2017;Initial Catalog=ExamDB;Integrated Security=True; MultipleActiveResultSets=True;";
+            string connString = "Server=DESKTOP-DRNRF9P;Initial Catalog=ExamDB;Integrated Security=True; MultipleActiveResultSets=True;";
 
             using (var dbContext = DbContextCreator.CreateContext(connString))
             {

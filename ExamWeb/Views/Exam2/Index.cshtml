@@ -1,0 +1,99 @@
+﻿@model ExamWeb.Controllers.JourneyFilterVM
+@{
+    ViewBag.Title = "Jornadas";
+}
+
+<div class="jumbotron">
+    <h2>@ViewBag.Title</h2>
+    <hr />
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Serviços</a></li>
+            <li class="breadcrumb-item active" aria-current="page">@ViewBag.Title</li>
+        </ol>
+    </nav>
+</div>
+
+<div class="jumbotron">
+    <table class="table table-striped table-bordered table-hover footable dataTables_scrollBody" cellspacing="0" width="100%" role="grid" aria-describedby="example_info" style="width: 100%;">
+        <thead>
+            <tr>
+                <th></th>
+                <th>
+                    Id
+                </th>
+                <th>
+                    Motorista
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><input type="checkbox" data-id="1" class="i-checks selectedBordero" /><br></td>
+                <td>
+                    1
+                </td>
+                <td>
+                    Motorista Exemplo 1
+                </td>
+            </tr>
+            <tr>
+                <td><input type="checkbox" data-id="2" class="i-checks selectedBordero" /><br></td>
+                <td>
+                    2
+                </td>
+                <td>
+                    Motorista Exemplo 2
+                </td>
+            </tr>
+            <tr>
+                <td><input type="checkbox" data-id="3" class="i-checks selectedBordero" /><br></td>
+                <td>
+                    3
+                </td>
+                <td>
+                    Motorista Exemplo 3
+                </td>
+            </tr>
+            <tr>
+                <td><input type="checkbox" data-id="4" class="i-checks selectedBordero" /><br></td>
+                <td>
+                    4
+                </td>
+                <td>
+                    Motorista Exemplo 4
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="ibox-content">
+        <button class="btn btn-success" id="gotoMontarCarteira">Buscar Detalhes</button>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+        var selectedBorderos = [];
+        $(document).ready(function () {
+            intialSetup();
+        });
+
+        function intialSetup() {
+             $("#gotoMontarCarteira").click(function (event) {
+                var allBorderos = $('.selectedBordero').toArray().map(item => {
+                    var result = {};
+                    result.selected = item.checked;
+                    var borderoId = parseInt($(item).data("id"));
+                    result.borderoId = borderoId;
+                    return result;
+                });
+
+                var selectedBorderos = allBorderos.filter(s => s.selected).map(s => s.borderoId);
+
+                var url = '@Url.Action("GetDetailsOfEach", "Exam2")?ids=' + selectedBorderos;
+                 window.location.replace(url);
+
+             });
+        }
+    </script>
+}

@@ -16,11 +16,14 @@
 
 
   <ItemGroup>
-    <Content Update="Views\Journeys\Index.cshtml">
+    <Content Update="Views\Exam2\Index.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
+    <Content Update="Views\Exam1\Index.cshtml">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
-    <Content Update="Views\Journeys\_JourneyFilter.cshtml">
+    <Content Update="Views\Exam1\_JourneyFilter.cshtml">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
